@@ -8,7 +8,7 @@ let recipeSteps = [];
 let easterEggUnlocked = false;
 let friesUnlocked = false;
 
-// Recipe Definitions
+// Recipe Definitions with more complexity
 const recipes = {
     pizza: {
         name: "Pizza",
@@ -36,7 +36,11 @@ const recipes = {
     }
 };
 
-// Start Recipe
+// Sounds
+const fryingSound = new Audio('frying.mp3'); // Sound for frying action
+const cookingSound = new Audio('cooking.mp3'); // Sound for general cooking
+
+// Start Recipe Function
 const startRecipe = (recipeName) => {
     currentRecipe = recipes[recipeName];
     stepsCompleted = 0;
@@ -51,7 +55,7 @@ const startRecipe = (recipeName) => {
     gameLoop();
 };
 
-// Game Loop
+// Game Loop with more complexity
 const gameLoop = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     checkEasterEggs();
@@ -77,16 +81,16 @@ const gameLoop = () => {
     }
 };
 
-// Check for Easter Egg and Fries Completion
+// Check for Fries Completion and Easter Egg
 const checkForFriesCompletion = () => {
     if (currentRecipe.name === "Potato Fries" && stepsCompleted === recipeSteps.length) {
         showFriesMessage();
     }
 };
 
-// Unlock Fries
 const unlockFries = () => {
     inventory.push('potato', 'oil', 'salt', 'pepper');
+    fryingSound.play(); // Play frying sound when fries are unlocked
 };
 
 // Show Fries Message
@@ -106,16 +110,6 @@ const showEasterEggMessage = () => {
     const easterEggMessage = document.createElement("div");
     easterEggMessage.id = "easter-egg-message";
     easterEggMessage.textContent = "You’re the best chef ever, Kaiden loves you!";
-    easterEggMessage.style.position = "absolute";
-    easterEggMessage.style.top = "50%";
-    easterEggMessage.style.left = "50%";
-    easterEggMessage.style.transform = "translate(-50%, -50%)";
-    easterEggMessage.style.fontSize = "30px";
-    easterEggMessage.style.color = "#ff69b4";
-    easterEggMessage.style.fontWeight = "bold";
-    easterEggMessage.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-    easterEggMessage.style.padding = "20px";
-    easterEggMessage.style.borderRadius = "10px";
     document.body.appendChild(easterEggMessage);
 
     setTimeout(() => {
@@ -123,9 +117,15 @@ const showEasterEggMessage = () => {
     }, 5000);
 };
 
-// Canvas Setup
+// Canvas Setup with Animation
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
+// Draw Cooking Elements
+const drawCookingElements = () => {
+    ctx.fillStyle = "brown"; // Example, color for the frying pan or dough
+    ctx.fillRect(100, 100, 150, 50); // Draw a rectangle to represent the pan
+};
 
 // Call the startRecipe function when selecting a recipe
 const buttons = document.querySelectorAll('button');
