@@ -40,6 +40,10 @@ const recipes = {
 const fryingSound = new Audio('frying.mp3'); // Sound for frying action
 const cookingSound = new Audio('cooking.mp3'); // Sound for general cooking
 
+// Canvas Setup
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
 // Start Recipe Function
 const startRecipe = (recipeName) => {
     currentRecipe = recipes[recipeName];
@@ -57,7 +61,8 @@ const startRecipe = (recipeName) => {
 
 // Game Loop with more complexity
 const gameLoop = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+    drawCookingElements(); // Draw current elements
     checkEasterEggs();
     checkForFriesCompletion();
 
@@ -75,9 +80,27 @@ const gameLoop = () => {
     if (timeLeft > 0) {
         timeLeft--;
         document.getElementById('timer').textContent = `Time Left: ${timeLeft}s`;
-        setTimeout(gameLoop, 1000);
+        setTimeout(gameLoop, 1000); // Update every second
     } else {
         alert("Time's up!");
+    }
+};
+
+// Draw Cooking Elements
+const drawCookingElements = () => {
+    ctx.fillStyle = "#F4A300"; // Example for Frying Pan color
+    ctx.fillRect(100, 100, 150, 80); // Represent frying pan
+
+    if (currentRecipe.name === "Pizza") {
+        ctx.fillStyle = "#F6A3B4"; // Pizza dough color
+        ctx.beginPath();
+        ctx.arc(200, 150, 50, 0, Math.PI * 2, true); // Pizza dough
+        ctx.fill();
+    }
+
+    if (currentRecipe.name === "Potato Fries") {
+        ctx.fillStyle = "#F7F7C5"; // Color for fries
+        ctx.fillRect(100, 200, 50, 10); // Frying Pan with fries in it
     }
 };
 
@@ -115,16 +138,6 @@ const showEasterEggMessage = () => {
     setTimeout(() => {
         easterEggMessage.style.display = "none";
     }, 5000);
-};
-
-// Canvas Setup with Animation
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-// Draw Cooking Elements
-const drawCookingElements = () => {
-    ctx.fillStyle = "brown"; // Example, color for the frying pan or dough
-    ctx.fillRect(100, 100, 150, 50); // Draw a rectangle to represent the pan
 };
 
 // Call the startRecipe function when selecting a recipe
